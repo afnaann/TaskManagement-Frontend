@@ -1,8 +1,10 @@
+import { useContext } from "react";
 import { Link, useLocation } from "react-router-dom"; // Import React Router's hook
+import { AuthContext } from "../context/AuthContext";
 
 const Sidebar = () => {
+  const {user} = useContext(AuthContext)
   const location = useLocation(); // Get the current path
-
   const isActive = (path) => location.pathname === path;
 
   return (
@@ -44,8 +46,8 @@ const Sidebar = () => {
               alt="Profile"
             />
             <div className="ms-4">
-              <h4 className="text-lg font-semibold text-gray-900 dark:text-white">John Doe</h4> {/* Profile Name */}
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Frontend Developer</p> {/* Profile Role */}
+              <h4 className="text-lg font-semibold text-gray-900 dark:text-white">{user.username}</h4> {/* Profile Name */}
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400"> {user.email} </p> {/* Profile Role */}
             </div>
           </div>
 

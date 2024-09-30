@@ -1,33 +1,87 @@
-import { useState } from 'react'
-import './App.css'
-import Login from './Pages/login'
-import Register from './Pages/register'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import Sidebar from './components/sidebar'
-import Home from './Pages/admin/home'
-import UserHome from './Pages/user/home'
-import TaskTable from './Pages/admin/tasks'
-import AddTaskForm from './Pages/admin/addTask'
-import Tasks from './Pages/user/tasks'
-import TaskSubmit from './Pages/user/tasksubmit'
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
+import "./App.css";
+import Login from "./Pages/login";
+import Register from "./Pages/register";
+import AdminHome from "./Pages/admin/adminHome";
+import UserHome from "./Pages/user/userHome";
+import TaskTable from "./Pages/admin/tasks";
+import AddTaskForm from "./Pages/admin/addTask";
+import Tasks from "./Pages/user/tasks";
+import TaskSubmit from "./Pages/user/tasksubmit";
+import PrivateRoute from "./utils/privateRoute";
+import { AuthProvider } from "./context/AuthContext";
+import ApiContext, { ApiProvider } from "./context/ApiContext";
+
+
 
 function App() {
+  const navigate = useNavigate();
   return (
-    <Router>  
-      <Routes>
-        <Route path='/login' element={<Login/>} />
-        <Route path='/register' element={<Register/>} />
-        
-        <Route path='/home' element={<UserHome/>} />
-        <Route path='/tasks' element={<Tasks/>} />
-        <Route path='/tasksubmit' element={<TaskSubmit/>} />
+    <AuthProvider navigate={navigate}>
+      <ApiProvider>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
-        <Route path='/admin/home' element={<Home/>} />
-        <Route path='/admin/tasks' element={<TaskTable/>} />
-        <Route path='/admin/addtask' element={<AddTaskForm/>} />
-      </Routes>
-    </Router>
-  )
+          <Route
+            path="/home"
+            element={
+              <PrivateRoute>
+                <UserHome />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/tasks"
+            element={
+              <PrivateRoute>
+                <Tasks />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/tasksubmit"
+            element={
+              <PrivateRoute>
+                <TaskSubmit />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/admin/home"
+            element={
+              <PrivateRoute>
+                <AdminHome />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/tasks"
+            element={
+              <PrivateRoute>
+                <TaskTable />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/addtask"
+            element={
+              <PrivateRoute>
+                <AddTaskForm />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </ApiProvider>
+    </AuthProvider>
+  );
 }
 
-export default App
+
+export default App;

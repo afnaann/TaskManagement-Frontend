@@ -1,25 +1,25 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import UserSidebar from '../../components/usersidebar';
+import ApiContext from '../../context/ApiContext';
+import useAxios from '../../api/useAxios';
 
 const TaskSubmit = () => {
-  const [assignment, setAssignment] = useState(''); // Selected assignment
+  const [task, setTask] = useState(''); // Selected task
   const [answerTitle, setAnswerTitle] = useState(''); // Answer title
   const [answerFile, setAnswerFile] = useState(null); // Answer file
+  const api = useAxios()
+  const {tasks} = useContext(ApiContext)
 
-  const assignments = [
-    { id: 1, title: 'Assignment 1' },
-    { id: 2, title: 'Assignment 2' },
-    { id: 3, title: 'Assignment 3' }
-  ];
-
+  const incompleteTasks = tasks?.filter(task => !task.completed)
+  console.log(incompleteTasks)
   const handleFileChange = (e) => {
     setAnswerFile(e.target.files[0]);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log({ assignment, answerTitle, answerFile });
+    const response = await api.post('/auth/tasks/submit',{'title':task})
+    
   };
 
   return (
@@ -27,25 +27,25 @@ const TaskSubmit = () => {
       <UserSidebar />
 
       <div className="flex-auto p-6 ml-96 mr-10 mt-24 2xl:mr-96">
-        <h2 className="text-3xl font-bold text-gray-800 mb-5">Submit Assignment Answer</h2>
+        <h2 className="text-3xl font-bold text-gray-800 mb-5">Submit Task Answer</h2>
         <form onSubmit={handleSubmit} className="bg-gray-200 shadow-md rounded-lg p-8">
           
           {/* Assignment Select */}
           <div className="mb-6">
-            <label className="block text-gray-800 text-sm font-medium mb-2" htmlFor="assignment">
-              Select Assignment
+            <label className="block text-gray-800 text-sm font-medium mb-2" htmlFor="task">
+              Select Task
             </label>
             <select
-              id="assignment"
-              value={assignment}
-              onChange={(e) => setAssignment(e.target.value)}
+              id="task"
+              value={task}
+              onChange={(e) => setTask(e.target.value)}
               className="shadow-sm appearance-none border border-gray-300 rounded-md w-full py-2 px-4 text-gray-800 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             >
-              <option value="" disabled>Select an assignment</option>
-              {assignments.map((assignment) => (
-                <option key={assignment.id} value={assignment.title}>
-                  {assignment.title}
+              <option value="" disabled>Select an task</option>
+              {incompleteTasks?.map((task) => (
+                <option key={task.task.title} value={task.task.title}>
+                  {task.task.title}
                 </option>
               ))}
             </select>

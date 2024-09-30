@@ -1,31 +1,15 @@
+import { useContext } from "react";
 import Sidebar from "../../components/sidebar";
+import ApiContext from "../../context/ApiContext";
 
 const TaskTable = () => {
-  const tasks = [
-    {
-      title: "Create Homepage Layout",
-      assignee: "John Doe",
-      status: "In Progress",
-    },
-    {
-      title: "Fix Navigation Bar Bug",
-      assignee: "Jane Smith",
-      status: "Completed",
-    },
-    {
-      title: "Implement User Authentication",
-      assignee: "Sam Wilson",
-      status: "Pending",
-    },
-  ];
-
+  const {totalUserTasks} = useContext(ApiContext)
+  console.log(totalUserTasks)
   const getStatusClass = (status) => {
     switch (status) {
-      case "Completed":
+      case true:
         return "bg-green-100 text-green-800";
-      case "In Progress":
-        return "bg-yellow-100 text-yellow-800";
-      case "Pending":
+      case false:
         return "bg-red-100 text-red-800";
       default:
         return "bg-gray-100 text-gray-800";
@@ -52,22 +36,22 @@ const TaskTable = () => {
               </tr>
             </thead>
             <tbody>
-              {tasks.map((task, index) => (
+              {totalUserTasks?.map((task, index) => (
                 <tr
                   key={index}
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                 >
                   <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    {task.title}
+                    {task.task.title}
                   </td>
-                  <td className="px-6 py-4">{task.assignee}</td>
+                  <td className="px-6 py-4">{task.user.username}</td>
                   <td className="px-6 py-4">
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusClass(
-                        task.status
+                        task.completed
                       )}`}
                     >
-                      {task.status}
+                      {task.completed ? 'Completed': 'Pending'}
                     </span>
                   </td>
                 </tr>

@@ -1,18 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import front from '../assets/front.png'
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import { jwtDecode } from "jwt-decode";
 
 
 
 
 const Login = () => {
+    const { setAuthTokens,setUser } = useContext(AuthContext)
     const [formData,setFormData] = useState({
         username:'',
         password:''
     })
     const navigate = useNavigate()
-
 
     const handleChange = (e) => {
         const {name, value} = e.target
@@ -25,19 +27,28 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await axios.post('http://127.0.0.1:8000/auth/api/login',formData)
-        console.log(response)
-        if(response.status == 200){
-            localStorage.setItem('authTokens',response.data)
-            if(formData.username = 'admin') {
-                navigate('/admin')
+        try {
+            const response = await axios.post('http://127.0.0.1:8000/auth/api/login',formData)
+            console.log(response)
+            if(response.status == 200){
+                localStorage.setItem('authTokens',JSON.stringify(response.data))
+                setAuthTokens(response.data)
+                setUser(jwtDecode(response.data.access))
+                if(formData.username == 'admin') {
+                    console.log(formData)
+                    navigate('/admin/home')
+                }else{
+                    alert('Login Successful')
+                
+                    navigate('/home')  
+                }
+    
             }else{
-                navigate('/')  
+                alert('Invalid Login Credentials!')
             }
-            alert('Login Successful')
-
-        }else{
-            alert('Invalid Login Credentials!')
+        }catch(error) {
+            console.log(error)
+            alert('Login Failed! Try Again.')
         }
     }
 
