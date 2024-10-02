@@ -4,9 +4,9 @@ import { useContext } from "react";
 import ApiContext from "../../context/ApiContext";
 
 const AdminHome = () => {
-  const {users,totalTasks} = useContext(ApiContext)
+  const {users,totalUserTasks} = useContext(ApiContext)
 
-  const completedTasks = totalTasks?.filter((task)=> task.completed)
+  const completedTasks = totalUserTasks?.filter((task)=> task.completed)
   return (
     <>
       <Sidebar />
@@ -65,7 +65,7 @@ const AdminHome = () => {
               </div>
               <div className="ml-6">
                 <p className="mb-2 text-lg font-medium text-gray-600 dark:text-gray-400">Total Tasks</p>
-                <p className="text-2xl font-semibold text-gray-900 dark:text-white"> {totalTasks?.length} </p>
+                <p className="text-2xl font-semibold text-gray-900 dark:text-white"> {totalUserTasks?.length} </p>
               </div>
             </div>
           </div>
@@ -117,7 +117,7 @@ const AdminHome = () => {
               </div>
               <div className="ml-6">
                 <p className="mb-2 text-lg font-medium text-gray-600 dark:text-gray-400">Pending Assignments</p>
-                <p className="text-2xl font-semibold text-gray-900 dark:text-white"> {totalTasks?.length - completedTasks?.length} </p>
+                <p className="text-2xl font-semibold text-gray-900 dark:text-white"> {totalUserTasks?.length - completedTasks?.length} </p>
               </div>
             </div>
           </div>

@@ -4,7 +4,6 @@ import ApiContext from "../../context/ApiContext";
 
 const TaskTable = () => {
   const {totalUserTasks} = useContext(ApiContext)
-  console.log(totalUserTasks)
   const getStatusClass = (status) => {
     switch (status) {
       case true:

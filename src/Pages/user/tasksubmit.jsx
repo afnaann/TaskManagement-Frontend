@@ -11,7 +11,6 @@ const TaskSubmit = () => {
   const {tasks} = useContext(ApiContext)
 
   const incompleteTasks = tasks?.filter(task => !task.completed)
-  console.log(incompleteTasks)
   const handleFileChange = (e) => {
     setAnswerFile(e.target.files[0]);
   };

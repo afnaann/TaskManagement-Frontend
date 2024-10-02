@@ -25,7 +25,7 @@ const useAxios = () => {
         const response = await axios.post(`${baseURL}/auth/api/login/refresh`,{
             refresh:authTokens?.refresh
         });
-        console.log('Yes it is. Now updatign the link')
+        console.log('Yes it is. Now updating the link')
         console.log(response)
         localStorage.setItem('authTokens',JSON.stringify(response.data))
         setAuthTokens(response.data)

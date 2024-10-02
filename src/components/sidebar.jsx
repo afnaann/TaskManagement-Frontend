@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom"; // Import React Router's h
 import { AuthContext } from "../context/AuthContext";
 
 const Sidebar = () => {
-  const {user} = useContext(AuthContext)
+  const { user, logoutUser } = useContext(AuthContext);
   const location = useLocation(); // Get the current path
   const isActive = (path) => location.pathname === path;
 
@@ -46,8 +46,15 @@ const Sidebar = () => {
               alt="Profile"
             />
             <div className="ms-4">
-              <h4 className="text-lg font-semibold text-gray-900 dark:text-white">{user.username}</h4> {/* Profile Name */}
-              <p className="text-sm font-medium text-gray-500 dark:text-gray-400"> {user.email} </p> {/* Profile Role */}
+              <h4 className="text-lg font-semibold text-gray-900 dark:text-white">
+                {user.username}
+              </h4>{" "}
+              {/* Profile Name */}
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                {" "}
+                {user.email}{" "}
+              </p>{" "}
+              {/* Profile Role */}
             </div>
           </div>
 
@@ -56,9 +63,11 @@ const Sidebar = () => {
             {/* Dashboard Link */}
             <li>
               <Link
-                to={'/admin/home'}
+                to={"/admin/home"}
                 className={`flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
-                  isActive("/admin/home") ? "bg-gray-200 dark:bg-black" : "text-gray-900 dark:text-white"
+                  isActive("/admin/home")
+                    ? "bg-gray-200 dark:bg-black"
+                    : "text-gray-900 dark:text-white"
                 }`}
               >
                 <svg
@@ -76,10 +85,12 @@ const Sidebar = () => {
             </li>
             {/* Tasks Link */}
             <li>
-              <Link 
-              to={"/admin/tasks"}
+              <Link
+                to={"/admin/tasks"}
                 className={`flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
-                  isActive("/admin/tasks") ? "bg-gray-200 dark:bg-gray-900" : "text-gray-900 dark:text-white"
+                  isActive("/admin/tasks")
+                    ? "bg-gray-200 dark:bg-gray-900"
+                    : "text-gray-900 dark:text-white"
                 }`}
               >
                 <svg
@@ -97,10 +108,12 @@ const Sidebar = () => {
             </li>
             {/* Add Tasks Link */}
             <li>
-              <Link 
-              to={"/admin/addtask"}
+              <Link
+                to={"/admin/addtask"}
                 className={`flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
-                  isActive("/admin/addtask") ? "bg-gray-200 dark:bg-gray-900" : "text-gray-900 dark:text-white"
+                  isActive("/admin/addtask")
+                    ? "bg-gray-200 dark:bg-gray-900"
+                    : "text-gray-900 dark:text-white"
                 }`}
               >
                 <svg
@@ -114,6 +127,50 @@ const Sidebar = () => {
                 </svg>
                 <span className="flex-1 ms-3 whitespace-nowrap">Add Tasks</span>
               </Link>
+            </li>
+            {/* Submit Task Link */}
+            <li>
+              <Link
+                to={"/admin/assigntask"} // Change this to your actual submit task path
+                className={`flex items-center p-2 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                  isActive("/admin/assigntask")
+                    ? "bg-gray-200 dark:bg-gray-900"
+                    : "text-gray-900 dark:text-white"
+                }`}
+              >
+                <svg
+                  className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M11 18a2 2 0 1 1-4 0V4a2 2 0 1 1 4 0v14Zm7-14a2 2 0 1 0-4 0v14a2 2 0 1 0 4 0V4Z" />
+                </svg>
+                <span className="flex-1 ms-3 whitespace-nowrap">Assign Task</span>
+              </Link>
+            </li>
+            {/* Logout Button */}
+            <li>
+              <button
+                onClick={logoutUser} // Replace this with your logout handler function
+                className={`flex items-center p-2 pr-36 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group ${
+                  isActive("/logout")
+                    ? "bg-gray-200 dark:bg-gray-900"
+                    : "text-gray-900 dark:text-white"
+                }`}
+              >
+                <svg
+                  className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path d="M3 10a1 1 0 0 1 1-1h8.586l-3.293-3.293a1 1 0 0 1 1.414-1.414l5 5a1 1 0 0 1 0 1.414l-5 5a1 1 0 1 1-1.414-1.414L12.586 11H4a1 1 0 0 1-1-1Z" />
+                </svg>
+                <span className="flex-1 ms-3 whitespace-nowrap">Logout</span>
+              </button>
             </li>
           </ul>
         </div>

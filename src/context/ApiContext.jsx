@@ -15,18 +15,16 @@ export const ApiProvider = ({children}) => {
     const [users, setUsers] = useState(null)
     const api = useAxios()
 
-
     const getTasks = async () => {
         const response = await api.get('/auth/tasks/home')
         setTasks(response.data)
     }
     const getUsers = async () => {
         const response = await api.get('/auth/admin/getusers')
-        console.log(response)
         setUsers(response.data)
     }
     const getTotalTasks = async () => {
-        const response = await api.get('/auth/tasks/home')
+        const response = await api.get('/auth/tasks/get')
         setTotalTasks(response.data)
     }
     const getAllUserTasks = async () => {
@@ -37,16 +35,13 @@ export const ApiProvider = ({children}) => {
     useEffect(()=> {
         if(!authTokens) return;
         getTasks()
-
-    },[authTokens])
-    
-    useEffect(()=> {
-        if(!authTokens) return;
         getUsers()
         getTotalTasks()
         getAllUserTasks()
 
-    },[])
+    },[authTokens])
+    
+
 
     return (
         <ApiContext.Provider value={{

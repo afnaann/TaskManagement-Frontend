@@ -13,11 +13,10 @@ import TaskTable from "./Pages/admin/tasks";
 import AddTaskForm from "./Pages/admin/addTask";
 import Tasks from "./Pages/user/tasks";
 import TaskSubmit from "./Pages/user/tasksubmit";
-import PrivateRoute from "./utils/privateRoute";
+import PrivateRoute, { LoginRoute } from "./utils/privateRoute";
 import { AuthProvider } from "./context/AuthContext";
 import ApiContext, { ApiProvider } from "./context/ApiContext";
-
-
+import AssignTaskForm from "./Pages/admin/assignTask";
 
 function App() {
   const navigate = useNavigate();
@@ -25,7 +24,14 @@ function App() {
     <AuthProvider navigate={navigate}>
       <ApiProvider>
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route
+            path="/login"
+            element={
+              <LoginRoute>
+                <Login />
+              </LoginRoute>
+            }
+          />
           <Route path="/register" element={<Register />} />
 
           <Route
@@ -77,11 +83,18 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route
+            path="/admin/assigntask"
+            element={
+              <PrivateRoute>
+                <AssignTaskForm />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </ApiProvider>
     </AuthProvider>
   );
 }
-
 
 export default App;
